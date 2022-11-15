@@ -38,8 +38,8 @@
  * https://navigation.ros.org/tutorials/docs/writing_new_nav2planner_plugin.html
  *********************************************************************/
 
-#ifndef NAV2_STRAIGHTLINE_PLANNER__STRAIGHT_LINE_PLANNER_HPP_
-#define NAV2_STRAIGHTLINE_PLANNER__STRAIGHT_LINE_PLANNER_HPP_
+#ifndef nav2_straightline_planner2__STRAIGHT_LINE_PLANNER_HPP_
+#define nav2_straightline_planner2__STRAIGHT_LINE_PLANNER_HPP_
 
 #include <string>
 #include <memory>
@@ -54,14 +54,14 @@
 #include "nav2_util/lifecycle_node.hpp"
 #include "nav2_costmap_2d/costmap_2d_ros.hpp"
 
-namespace nav2_straightline_planner
+namespace nav2_straightline_planner2
 {
 
-class StraightLine : public nav2_core::GlobalPlanner
+class straightline2 : public nav2_core::GlobalPlanner
 {
 public:
-  StraightLine() = default;
-  ~StraightLine() = default;
+  straightline2() = default;
+  ~straightline2() = default;
 
   // plugin configure
   void configure(
@@ -99,6 +99,6 @@ private:
   double interpolation_resolution_;
 };
 
-}  // namespace nav2_straightline_planner
+}  // namespace nav2_straightline_planner2
 
-#endif  // NAV2_STRAIGHTLINE_PLANNER__STRAIGHT_LINE_PLANNER_HPP_
+#endif  // nav2_straightline_planner2__STRAIGHT_LINE_PLANNER_HPP_

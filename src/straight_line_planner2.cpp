@@ -43,12 +43,12 @@
 #include <memory>
 #include "nav2_util/node_utils.hpp"
 
-#include "nav2_StraightLine2_planner/straight_line_planner2.hpp"
+#include "nav2_straightline_planner2/straight_line_planner2.hpp"
 
-namespace nav2_StraightLine2_planner
+namespace nav2_straightline_planner2
 {
 
-void StraightLine2::configure(
+void straightline2::configure(
   const rclcpp_lifecycle::LifecycleNode::WeakPtr & parent,
   std::string name, std::shared_ptr<tf2_ros::Buffer> tf,
   std::shared_ptr<nav2_costmap_2d::Costmap2DROS> costmap_ros)
@@ -66,28 +66,28 @@ void StraightLine2::configure(
   node_->get_parameter(name_ + ".interpolation_resolution", interpolation_resolution_);
 }
 
-void StraightLine2::cleanup()
+void straightline2::cleanup()
 {
   RCLCPP_INFO(
     node_->get_logger(), "CleaningUp plugin %s of type NavfnPlanner",
     name_.c_str());
 }
 
-void StraightLine2::activate()
+void straightline2::activate()
 {
   RCLCPP_INFO(
     node_->get_logger(), "Activating plugin %s of type NavfnPlanner",
     name_.c_str());
 }
 
-void StraightLine2::deactivate()
+void straightline2::deactivate()
 {
   RCLCPP_INFO(
     node_->get_logger(), "Deactivating plugin %s of type NavfnPlanner",
     name_.c_str());
 }
 
-nav_msgs::msg::Path StraightLine2::createPlan(
+nav_msgs::msg::Path straightline2::createPlan(
   const geometry_msgs::msg::PoseStamped & start,
   const geometry_msgs::msg::PoseStamped & goal)
 {
@@ -138,7 +138,7 @@ nav_msgs::msg::Path StraightLine2::createPlan(
   return global_path;
 }
 
-}  // namespace nav2_StraightLine2_planner
+}  // namespace nav2_straightline_planner2
 
 #include "pluginlib/class_list_macros.hpp"
-PLUGINLIB_EXPORT_CLASS(nav2_StraightLine2_planner::StraightLine2, nav2_core::GlobalPlanner)
+PLUGINLIB_EXPORT_CLASS(nav2_straightline_planner2::straightline2, nav2_core::GlobalPlanner)
