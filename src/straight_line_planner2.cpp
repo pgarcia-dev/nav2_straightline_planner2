@@ -135,6 +135,18 @@ nav_msgs::msg::Path straightline2::createPlan(
 
   global_path.poses.push_back(goal);
 
+  geometry_msgs::msg::PoseStamped pose;
+  pose.pose.position.x = goal.pose.position.x;
+  pose.pose.position.y = goal.pose.position.y+1;
+  pose.pose.position.z = 0.0;
+  pose.pose.orientation.x = 0.0;
+  pose.pose.orientation.y = 0.0;
+  pose.pose.orientation.z = 0.0;
+  pose.pose.orientation.w = 1.0;
+  pose.header.stamp = node_->now();
+  pose.header.frame_id = global_frame_;
+  global_path.poses.push_back(pose);
+
   return global_path;
 }
 
