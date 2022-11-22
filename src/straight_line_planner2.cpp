@@ -91,6 +91,8 @@ nav_msgs::msg::Path straightline2::createPlan(
   const geometry_msgs::msg::PoseStamped & start,
   const geometry_msgs::msg::PoseStamped & goal)
 {
+  RCLCPP_INFO(node_->get_logger(), "****************** Inside createPlan");
+
   nav_msgs::msg::Path global_path;
 
   // Checking if the goal and start state is in the global frame
@@ -112,17 +114,62 @@ nav_msgs::msg::Path straightline2::createPlan(
   global_path.header.stamp = node_->now();
   global_path.header.frame_id = global_frame_;
   // calculating the number of loops for current value of interpolation_resolution_
+  /**
   int total_number_of_loop = std::hypot(
     goal.pose.position.x - start.pose.position.x,
     goal.pose.position.y - start.pose.position.y) /
     interpolation_resolution_;
+  RCLCPP_INFO(node_->get_logger(), "*** total%d", total_number_of_loop);
+
+  
   double x_increment = (goal.pose.position.x - start.pose.position.x) / total_number_of_loop;
   double y_increment = (goal.pose.position.y - start.pose.position.y) / total_number_of_loop;
 
-  for (int i = 0; i < total_number_of_loop; ++i) {
+  if(  total_number_of_loop/2 > 0) {
+   for (int i = 0; i < total_number_of_loop; ++i) {
+      geometry_msgs::msg::PoseStamped pose;
+      pose.pose.position.x = start.pose.position.x + x_increment * i;
+      pose.pose.position.y = start.pose.position.y + y_increment * i;
+      pose.pose.position.z = 0.0;
+      pose.pose.orientation.x = 0.0;
+      pose.pose.orientation.y = 0.0;
+      pose.pose.orientation.z = 0.0;
+      pose.pose.orientation.w = 1.0;
+     // pose.header.stamp = node_->now();
+      pose.header.frame_id = global_frame_;
+      global_path.poses.push_back(pose);
+    }
+    //global_path.poses.push_back(goal);
+  }
+
+  else{
+**/
+
+  //here my dirty code
+  geometry_msgs::msg::PoseStamped goal2;
+  goal2.pose.position.x = start.pose.position.x;
+  goal2.pose.position.y = start.pose.position.y+1;
+  goal2.pose.position.z = 0.0;
+  goal2.pose.orientation.x = 0.0;
+  goal2.pose.orientation.y = 0.0;
+  goal2.pose.orientation.z = 0.0;
+  goal2.pose.orientation.w = 1.0;
+//   goal2.header.stamp = node_->now();
+  goal2.header.frame_id = global_frame_;
+
+  int total_number_of_loop2 = std::hypot(
+    goal2.pose.position.x - start.pose.position.x,
+    goal2.pose.position.y - start.pose.position.y) /
+    interpolation_resolution_;
+  RCLCPP_INFO(node_->get_logger(), "*** total2 %d", total_number_of_loop2);
+
+  double x_increment2 = (goal2.pose.position.x - start.pose.position.x) / total_number_of_loop2;
+  double y_increment2 = (goal2.pose.position.y - start.pose.position.y) / total_number_of_loop2;
+
+  for (int i = 0; i < total_number_of_loop2; ++i) {
     geometry_msgs::msg::PoseStamped pose;
-    pose.pose.position.x = start.pose.position.x + x_increment * i;
-    pose.pose.position.y = start.pose.position.y + y_increment * i;
+    pose.pose.position.x = goal2.pose.position.x + x_increment2 * i;
+    pose.pose.position.y = goal2.pose.position.y + y_increment2 * i;
     pose.pose.position.z = 0.0;
     pose.pose.orientation.x = 0.0;
     pose.pose.orientation.y = 0.0;
@@ -132,21 +179,8 @@ nav_msgs::msg::Path straightline2::createPlan(
     pose.header.frame_id = global_frame_;
     global_path.poses.push_back(pose);
   }
-
-  global_path.poses.push_back(goal);
-
-  geometry_msgs::msg::PoseStamped pose;
-  pose.pose.position.x = goal.pose.position.x;
-  pose.pose.position.y = goal.pose.position.y+1;
-  pose.pose.position.z = 0.0;
-  pose.pose.orientation.x = 0.0;
-  pose.pose.orientation.y = 0.0;
-  pose.pose.orientation.z = 0.0;
-  pose.pose.orientation.w = 1.0;
-  pose.header.stamp = node_->now();
-  pose.header.frame_id = global_frame_;
-  global_path.poses.push_back(pose);
-
+  global_path.poses.push_back(goal2);
+  
   return global_path;
 }
 
@@ -154,3 +188,4 @@ nav_msgs::msg::Path straightline2::createPlan(
 
 #include "pluginlib/class_list_macros.hpp"
 PLUGINLIB_EXPORT_CLASS(nav2_straightline_planner2::straightline2, nav2_core::GlobalPlanner)
+
